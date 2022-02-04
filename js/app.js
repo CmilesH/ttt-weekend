@@ -3,16 +3,32 @@
 
 
 /*---------------------------- Variables (state) ----------------------------*/
-let playerTurn, playerSqr, winnerCheck, winner
+let playerTurn, playerSqr, winnerCheck
+let winner = null
 let gameState = 'start'
 
 
 /*------------------------ Cached Element References ------------------------*/
-const boardSqrs = document.getElementsByClassName('square')
+const boardSqrs = [
+	document.querySelector('div.square[id = "sq0"]  '),
+	document.querySelector('div.square[id = "sq1"]  '),
+	document.querySelector('div.square[id = "sq2"]  '),
+	document.querySelector('div.square[id = "sq3"]  '),
+	document.querySelector('div.square[id = "sq4"]  '),
+	document.querySelector('div.square[id = "sq5"]  '),
+	document.querySelector('div.square[id = "sq6"]  '),
+	document.querySelector('div.square[id = "sq7"]  '),
+	document.querySelector('div.square[id = "sq8"]  '),
+]
+
+const board = []
+const marks = [null, 'X', 'O']
+
 const gameMessage = document.querySelector('message')
 
 
 
+console.log(boardSqrs)
 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -22,10 +38,20 @@ const gameMessage = document.querySelector('message')
 /*-------------------------------- Functions --------------------------------*/
 init()
 
-init => {
-
+function init()  {
+	boardSqrs.forEach(square => {
+		square.value = null
+	})
+	playerTurn = 1
+	winner = null
+	render()
 }
 
+function render(){
+	boardSqrs.forEach(square => {
+	square.textContent = marks.at(square.value)
+	})
+}
 // 1) Define the required variables used to track the state of the game:
   // None of these variables will need to hold a value when they are defined
 
