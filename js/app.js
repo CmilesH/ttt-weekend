@@ -1,11 +1,12 @@
 /*-------------------------------- Constants --------------------------------*/
-
-
+const marks = [null, 'X', 'O']
+const winnerCheck = []
 
 /*---------------------------- Variables (state) ----------------------------*/
-let playerTurn, playerSqr, winnerCheck
-let winner = null
-let gameState = 'start'
+let playerTurn = 0
+// let playerSqr = null
+let	 winner = null
+// let gameState = 'start'
 
 
 /*------------------------ Cached Element References ------------------------*/
@@ -21,36 +22,79 @@ const boardSqrs = [
 	document.querySelector('div.square[id = "sq8"]  '),
 ]
 
-const board = []
-const marks = [null, 'X', 'O']
+const squares = document.getElementById('ttt')
 
-const gameMessage = document.querySelector('message')
+const gameMessage = document.getElementById('message')
 
-
-
-console.log(boardSqrs)
-
+const resetBtn = document.getElementById('reset-button')
 
 /*----------------------------- Event Listeners -----------------------------*/
+squares.addEventListener('click', function(e)  {
+	if (e.target.value === 0){
+	e.target.value = playerTurn
+	winnerCheck()
+
+	if (winner === null) {
+	playerTurn = playerTurn * -1
+}
+	
+render()
+	console.log(winnerCondit())
+	}
+})
 
 
+
+resetBtn.addEventListener('click', evt =>{
+	if (window.confirm('Are you sure you want to reset?')){
+	init()
+	}
+})
 
 /*-------------------------------- Functions --------------------------------*/
 init()
 
 function init()  {
 	boardSqrs.forEach(square => {
-		square.value = null
+		square.value = 0
 	})
 	playerTurn = 1
 	winner = null
 	render()
 }
 
+let values = boardSqrs.map(sqr => {
+	sqr = sqr.value
+})
+
 function render(){
 	boardSqrs.forEach(square => {
 	square.textContent = marks.at(square.value)
 	})
+	
+	gameMessage.textContent = `It is ${marks.at(playerTurn)}'s Turn`
+}
+
+function winnerDec() {
+	if (winnerCheck.find(true)){
+		return winner = playerTurn
+	}
+}
+
+
+console.log(boardSqrs.map(sqr => sqr.value))
+
+function winnerCondit() {
+	return winnerCheck = [
+	(Math.abs(boardSqrs[0].value + boardSqrs[1].value + boardSqrs[2].value) === 3),
+	(Math.abs(boardSqrs[3].value + boardSqrs[4].value + boardSqrs[5].value) === 3),
+	(Math.abs(boardSqrs[6].value + boardSqrs[7].value + boardSqrs[8].value) === 3),
+	(Math.abs(boardSqrs[0].value + boardSqrs[3].value + boardSqrs[6].value) === 3),
+	(Math.abs(boardSqrs[1].value + boardSqrs[4].value + boardSqrs[7].value) === 3),
+	(Math.abs(boardSqrs[2].value + boardSqrs[5].value + boardSqrs[8].value) === 3),
+	(Math.abs(boardSqrs[0].value + boardSqrs[4].value + boardSqrs[8].value) === 3),
+	(Math.abs(boardSqrs[2].value + boardSqrs[4].value + boardSqrs[6].value) === 3)
+	]
 }
 // 1) Define the required variables used to track the state of the game:
   // None of these variables will need to hold a value when they are defined

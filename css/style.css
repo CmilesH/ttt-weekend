@@ -11,6 +11,15 @@ body {
   flex-direction: column;
 }
 
+button.reset {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100px;
+  text-align: center;
+  
+}
+
 section.board {
   margin: auto;
   margin-top: 50px;
@@ -20,9 +29,21 @@ section.board {
   grid-gap: 0vmin;
 }
 
-div {
+div.square {
   border: 3px solid black;
   font-size: 8vmin;
   text-align: center;
   vertical-align: middle;
+}
+
+.center-h {
+  display: flex;
+  justify-content: center;
+}
+.center-v {
+  display: flex;
+  align-items: center;
+}
+.h-500 {
+  height: 5000px;
 }
