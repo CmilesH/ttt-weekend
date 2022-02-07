@@ -8,6 +8,8 @@ let playerTurn = 0
 let	 winner = null
 // let gameState = 'start'
 let boardWins = []
+let gameTurn
+let boardTie = []
 
 
 /*------------------------ Cached Element References ------------------------*/
@@ -33,11 +35,17 @@ const resetBtn = document.getElementById('reset-button')
 squares.addEventListener('click', function(e)  {
 	if (e.target.value === 0 && winner === null){
 	e.target.value = playerTurn
+	gameTurn ++
+	if (gameTurn === 9) {
+		tieCondit()
 	}
 	winnerCondit()
 	winnerCheck()
-	console.log(winner, boardWins)
+	}
+	
+	
 	render()
+	console.log(`winner: ${winner} player turn: ${playerTurn}`, boardTie, ` secodn row valeu sum ${Math.abs(boardSqrs[3].value + boardSqrs[4].value + boardSqrs[5].value + playerTurn)}`, (Math.abs(boardSqrs[3].value + boardSqrs[4].value + boardSqrs[5].value + playerTurn) === 3))
 	
 	
 })
@@ -57,10 +65,13 @@ function init()  {
 	boardSqrs.forEach(square => {
 		square.value = 0
 	})
-	playerTurn = 1
+	gameTurn = 1
+	playerTurn = -1
 	winner = null
-	render()
 	boardWins = []
+	boardTie = []
+	render()
+	
 }
 
 function render(){
@@ -68,15 +79,22 @@ function render(){
 	square.textContent = marks.at(square.value)
 	})
 	
-	if (winner != null){
+	if (winner === null){
+		playerTurn = playerTurn * -1
+		gameMessage.textContent = `It is ${marks.at(playerTurn)}'s Turn`
+	}else if (winner === playerTurn){
 		gameMessage.textContent = `The winner is ${marks.at(playerTurn)}`
-	}else gameMessage.textContent = `It is ${marks.at(playerTurn)}'s Turn`
+	}else gameMessage.textContent = 'CAT'
 }
 
 function winnerCheck() {
 	if (boardWins.includes(true)){
 		winner = playerTurn
-	} else playerTurn = playerTurn * -1
+	}else if (gameTurn === 9){
+		if (boardTie.every(e => e === false)){
+		winner = 'T'
+		} 
+	}	
 }
 
 
@@ -90,6 +108,21 @@ function winnerCondit() {
 	(Math.abs(boardSqrs[2].value + boardSqrs[5].value + boardSqrs[8].value) === 3),
 	(Math.abs(boardSqrs[0].value + boardSqrs[4].value + boardSqrs[8].value) === 3),
 	(Math.abs(boardSqrs[2].value + boardSqrs[4].value + boardSqrs[6].value) === 3)
+	]
+}
+
+function tieCondit() {
+	console.log(boardSqrs.map(sqr => sqr.value))
+	console.log(playerTurn)
+	return boardTie = [
+	(Math.abs(boardSqrs[0].value + boardSqrs[1].value + boardSqrs[2].value + (playerTurn * -1)) === 3),
+	(Math.abs(boardSqrs[3].value + boardSqrs[4].value + boardSqrs[5].value + (playerTurn * -1)) === 3),
+	(Math.abs(boardSqrs[6].value + boardSqrs[7].value + boardSqrs[8].value + (playerTurn * -1)) === 3),
+	(Math.abs(boardSqrs[0].value + boardSqrs[3].value + boardSqrs[6].value + (playerTurn * -1)) === 3),
+	(Math.abs(boardSqrs[1].value + boardSqrs[4].value + boardSqrs[7].value + (playerTurn * -1)) === 3),
+	(Math.abs(boardSqrs[2].value + boardSqrs[5].value + boardSqrs[8].value + (playerTurn * -1)) === 3),
+	(Math.abs(boardSqrs[0].value + boardSqrs[4].value + boardSqrs[8].value + (playerTurn * -1)) === 3),
+	(Math.abs(boardSqrs[2].value + boardSqrs[4].value + boardSqrs[6].value + (playerTurn * -1)) === 3)
 	]
 }
 // 1) Define the required variables used to track the state of the game:
